@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <title>Title</title>
+</head>
+<style>
+
+</style>
+
+<script>
+
+    $(document).ready(function () {
+        // HTML 문서를 로드할 때마다 실행합니다.
+        getMessages();
+
+    })
+
+    // 미리 작성된 영역 - 수정하지 않으셔도 됩니다.
+    // 사용자가 내용을 올바르게 입력하였는지 확인합니다.
+
+
+    // 메모를 불러와서 보여줍니다.
+    function getMessages() {
+        // 1. 기존 메모 내용을 지웁니다.
+        // $('#table-box').empty();
+        // 2. 메모 목록을 불러와서 HTML로 붙입니다.
+        $.ajax({
+            type: 'GET',
+            url: '/api/boards',
+            success: function (response) {
+                console.log(response);
+                for (let i = 0; response.length; i++) {
+                    let board = response[i];
+                    let id = board.id;
+                    let username = board.username;
+                    let contents = board.contents;
+                    let title = board.title;
+                    let modifiedAt = board.modifiedAt;
+                    addHTML(id, username, contents, title, modifiedAt)
+                }
+            }
+        })
+    }
+
+    function addHTML(id, username, contents, title, modifiedAt) {
+        let tempHtml = `<table id="table-box" class="table table-hover table-bordered results">
+                        <thead>
+                        <tr>
+
+                            <th class="col-md-3 col-xs-3">작성자</th>
+                            <th class="col-md-6 col-xs-6">제목</th>
+                            <th class="col-md-3 col-xs-3">내용</th>
+                            <th class="col-md-3 col-xs-3">일자</th>
+
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td id="${id}-username">${username}</td>
+                            <td id="${id}-title">${title}</td>
+                            <td id="${id}-contents">${contents}</td>
+                            <td id="${id}-modifiedAt">
+                                    <p><a href='/api/comment/${id}' >${modifiedAt}</a></p>
+                            </td>
+                            <td>
+                            <img id="${id}-delete" class="icon-delete" src="../static/images/delete.png" alt="" onclick="deleteOne('${id}')">
+                            </td>
+                        </tr>
+
+                        </tbody>
+                        </table>
+                    `;
+        $('#table-box').append(tempHtml);
+    }
+
+
+    function deleteOne(id) {
+        // 1. DELETE /api/board/{id} 에 요청해서 메모를 삭제합니다.
+
+        $.ajax({
+            type: "DELETE",
+            url: `/api/boards/${id}`,
+            success: function (response) {
+                alert('메시지 삭제에 성공하였습니다.');
+                window.location.reload();
+            }
+        })
+    }
+
+</script>
+
+<body>
+<div id="header-title-login-user">
+    <span th:text="${username}"></span> 님의
+</div>
+    <div class="nav-see active">
+        <button id="login-id-btn" onclick="location.href='/api/boards/write'">
+            게시글 작성
+        </button>
+    </div>
+
+
+
+
+<table id="table-box" class="table table-hover table-bordered results">
+</table>
+<div>
+<form id="my_form" method="post" action="/user/logout">
+    <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
+</form>
+</div>
+</body>
+</html>

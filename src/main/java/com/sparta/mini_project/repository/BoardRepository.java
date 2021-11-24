@@ -1,5 +1,6 @@
-package com.sparta.mini_project.domain;
+package com.sparta.mini_project.repository;
 
+import com.sparta.mini_project.model.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,5 +1,6 @@
-package com.sparta.mini_project.domain;
+package com.sparta.mini_project.model;
 
+import com.sparta.mini_project.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,28 +14,22 @@ public class Board extends Timestamped{
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
-    @Column
+    @Column(nullable = false)
     private String username;
-    @Column
+    @Column(nullable = false)
     private String contents;
-    @Column
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
+    private Long userId;
 
-    public Board(String username, String contents, String title) {
-        this.username = username;
-        this.contents = contents;
-        this.title = title;
-    }
 
-    public  Board(BoardRequestDto requestDto){
+    public  Board(BoardRequestDto requestDto, Long userId){
         this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
         this.title =requestDto.getTitle();
+        this.userId = userId;
+
     }
 
-    public void update(BoardRequestDto requestDto) {
-        this.username = requestDto.getUsername();
-        this.contents = requestDto.getContents();
-        this.title =requestDto.getTitle();
-    }
 }

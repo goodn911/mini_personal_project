@@ -1,4 +1,4 @@
-package com.sparta.mini_project.domain;
+package com.sparta.mini_project.model;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
