@@ -1,13 +1,11 @@
 package com.sparta.mini_project.controller;
 
-import com.sparta.mini_project.dto.BoardRequestDto;
 import com.sparta.mini_project.dto.CommentRequestDto;
-import com.sparta.mini_project.model.*;
+import com.sparta.mini_project.model.Comment;
 import com.sparta.mini_project.repository.CommentRepository;
 import com.sparta.mini_project.security.UserDetailsImpl;
 import com.sparta.mini_project.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

@@ -10,21 +10,38 @@
     <link rel="stylesheet" type="text/css" href="/css/basic.css">
     <meta charset="UTF-8">
     <title>회원가입 페이지</title>
+   <script>
 
+   </script>
 </head>
 <body>
 <div id="login-form">
     <div id="login-title">Sign up Select Shop</div>
 
-    <form action="/user/signup" method="post">
+    <form th:action="@{/user/signup}" method="post">
         <div class="login-id-label">Username</div>
         <input type="text" name="username" placeholder="Username" class="login-input-box">
+        <span th:text="${valid_username}"></span>
+        <span th:text="${userDuplicate}"></span>
+
 
         <div class="login-id-label">Password</div>
         <input type="password" name="password" class="login-input-box">
+        <span th:text="${valid_password}"></span>
+        <span th:text="${notPassword}"></span>
+        <span th:text="${passwordDuplicate}"></span>
+
+        <div class="login-id-label">rePassword</div>
+        <input type="password" name="repassword" class="login-input-box">
+        <span th:text="${valid_repassword}"></span>
+        <span th:text="${notPassword}"></span>
+        <span th:text="${passwordDuplicate}"></span>
+
 
         <div class="login-id-label">E-mail</div>
         <input type="text" name="email" placeholder="E-mail" class="login-input-box">
+        <span th:text="${valid_email}"></span>
+
 
 
         <button id="login-id-submit">회원 가입</button>
