@@ -20,7 +20,7 @@ public class BoardController {
 
     private final BoardRepository boardRepository;
 
-    @PostMapping("/api/boards")
+    @PostMapping("/api/newboards")
     public Board createBoard(@RequestBody BoardRequestDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
         Long userId = userDetails.getUser().getId();
 
@@ -32,6 +32,7 @@ public class BoardController {
 
     @GetMapping("/api/boards")
     public List<Board> getBoard(){
+
         return boardRepository.findAllByOrderByModifiedAtDesc();
     }
 

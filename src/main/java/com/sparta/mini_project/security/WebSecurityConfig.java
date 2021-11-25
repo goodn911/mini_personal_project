@@ -30,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
+//첫페이지 로그인 없이 허용/ 전체게시글허용/ 상세게시글허용/ 상세게시글 댓글허용
+                .antMatchers("/","/api/boards","/api/comment/{id}","/api/comments").permitAll()
 // image 폴더를 login 없이 허용
                 .antMatchers("/images/**").permitAll()
 // css 폴더를 login 없이 허용

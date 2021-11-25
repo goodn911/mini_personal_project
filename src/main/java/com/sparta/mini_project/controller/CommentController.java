@@ -18,7 +18,7 @@ public class CommentController {
     private final CommentRepository commentRepository;
     private final CommentService commentService;
     //상세페이지 댓글 저장
-    @PostMapping("/api/comments")
+    @PostMapping("/api/newcomments")
     public Comment createComment(@RequestBody CommentRequestDto commentRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
         Long userId = userDetails.getUser().getId();
 

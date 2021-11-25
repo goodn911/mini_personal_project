@@ -136,7 +136,7 @@
             // 5. POST /api/memos 에 data를 전달합니다.
             $.ajax({
                 type: "POST",
-                url: "/api/comments",
+                url: "/api/newcomments",
                 contentType: "application/json", // JSON 형식으로 전달함을 알리기
                 data: JSON.stringify(data),
                 success: function (response) {
@@ -206,9 +206,11 @@
     </div>
     <div class="card" style="">
         <div class="card-body">
-            <h5 class="card-title"><span th:text="${board.title}"></span></h5>
-            <h6 class="card-subtitle mb-2 text-muted"><span th:text="${board.username}"></span><span th:text="${board.modifiedAt}"></span></h6>
-            <p class="card-text"><span th:text="${board.contents}"></span></p>
+
+
+            <h5 class="card-title"><span th:text="${board?.title}"></span></h5>
+            <h6 class="card-subtitle mb-2 text-muted"><span th:text="${board?.username}"></span><span th:text="${board?.modifiedAt}"></span></h6>
+            <p class="card-text"><span th:text="${board?.contents}"></span></p>
 
         </div>
     </div>
