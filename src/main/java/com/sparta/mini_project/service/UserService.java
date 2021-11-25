@@ -45,10 +45,30 @@ public class UserService {
 
 
 
-        User user = new User(username,password,repassword,email);
+        User user = new User(username,password,email);
         userRepository.save(user);
         return "";
     }
+    //비밀번호 아이디 중복
+    public String passwordDuplicate(SignupRequestDto requestDto) {
+        if (requestDto.getPassword().contains(requestDto.getUsername())) {
+            String passwordDuplicate = "아이디와 비밀번호가 비슷합니다.";
+            return passwordDuplicate;
+        }
+        return "";
+    }
+
+    public String notPassword(SignupRequestDto requestDto) {
+        if (!requestDto.getPassword().equals(requestDto.getRepassword())) {
+            String notPassword = "패스워드가 일치하지 않습니다.";
+            return notPassword;
+        }
+        return "";
+    }
+
+
+
+
 
     public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new HashMap<>();

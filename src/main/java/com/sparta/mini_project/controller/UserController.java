@@ -1,15 +1,12 @@
 package com.sparta.mini_project.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sparta.mini_project.dto.KakaoUserInfoDto;
 import com.sparta.mini_project.dto.SignupRequestDto;
-import com.sparta.mini_project.service.ErrorService;
 import com.sparta.mini_project.service.KakaoUserService;
 import com.sparta.mini_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,15 +16,15 @@ import java.util.Map;
 @Controller
 public class UserController {
 
-    private final ErrorService errorService;
+
     private final UserService userService;
     private final KakaoUserService kakaoUserService;
 
     @Autowired
-    public UserController(UserService userService, KakaoUserService kakaoUserService,ErrorService errorService) {
+    public UserController(UserService userService, KakaoUserService kakaoUserService) {
         this.userService = userService;
         this.kakaoUserService = kakaoUserService;
-        this.errorService = errorService;
+
     }
 
     // 회원 로그인 페이지
@@ -57,8 +54,8 @@ public class UserController {
         }
 
         String userDuplicate = userService.registerUser(signupRequestDto);
-        String notPassword = errorService.notPassword(signupRequestDto);
-        String passwordDuplicate = errorService.passwordDuplicate(signupRequestDto);
+        String notPassword = userService.notPassword(signupRequestDto);
+        String passwordDuplicate = userService.passwordDuplicate(signupRequestDto);
 
 
         if (userDuplicate.equals("")&&notPassword.equals("")&&passwordDuplicate.equals("")) {

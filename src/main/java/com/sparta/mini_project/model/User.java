@@ -24,9 +24,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String repassword;
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -35,10 +32,9 @@ public class User {
 
 
 
-    public User(String username, String password,String repassword, String email) {
+    public User(String username, String password , String email) {
         this.username = username;
         this.password = password;
-        this.repassword = repassword;
         this.email = email;
         this.kakaoId=null;
 
