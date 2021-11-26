@@ -17,8 +17,8 @@ public class CommentController {
 
     private final CommentRepository commentRepository;
     private final CommentService commentService;
-    //상세페이지 댓글 저장
-    @PostMapping("/api/newcomments")
+    //상세페이지 댓글 저장 api
+    @PostMapping("/api/comments")
     public Comment createComment(@RequestBody CommentRequestDto commentRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
         Long userId = userDetails.getUser().getId();
 
@@ -26,9 +26,8 @@ public class CommentController {
         return comment;
 
     }
-
-    //로그인된 댓글 ID
-    @GetMapping("/api/comments")
+    //상세페이지 댓글 불러오는 api
+    @GetMapping("/auth/comments")
     public List<Comment> getComment(){
 
         return commentRepository.findAllByOrderByModifiedAtDesc();

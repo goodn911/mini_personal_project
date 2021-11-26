@@ -19,8 +19,8 @@ public class BoardController {
 
 
     private final BoardRepository boardRepository;
-
-    @PostMapping("/api/newboards")
+    //게시글 작성 api
+    @PostMapping("/api/boards")
     public Board createBoard(@RequestBody BoardRequestDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
         Long userId = userDetails.getUser().getId();
 
@@ -29,8 +29,8 @@ public class BoardController {
         return boardRepository.save(board);
     }
 
-
-    @GetMapping("/api/boards")
+    //index 불러오는 api허가
+    @GetMapping("/auth/boards")
     public List<Board> getBoard(){
 
         return boardRepository.findAllByOrderByModifiedAtDesc();

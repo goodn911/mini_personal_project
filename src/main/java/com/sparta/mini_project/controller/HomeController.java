@@ -35,7 +35,8 @@ public class HomeController {
         return "redirect:/write.html";
     }
 
-    @GetMapping("/api/comment/{id}")
+
+    @GetMapping("/auth/comment/{id}")
     public String comment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
 
         if (userDetails != null) {

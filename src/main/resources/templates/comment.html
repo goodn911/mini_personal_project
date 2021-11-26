@@ -68,7 +68,7 @@
             // 2. 메모 목록을 불러와서 HTML로 붙입니다.
             $.ajax({
                 type: 'GET',
-                url: '/api/comments',
+                url: '/auth/comments',
                 success: function (response) {
                     console.log(response);
                     for(let i= 0; response.length;i++){
@@ -136,7 +136,7 @@
             // 5. POST /api/memos 에 data를 전달합니다.
             $.ajax({
                 type: "POST",
-                url: "/api/newcomments",
+                url: "/api/comments",
                 contentType: "application/json", // JSON 형식으로 전달함을 알리기
                 data: JSON.stringify(data),
                 success: function (response) {
@@ -183,6 +183,19 @@
                 }
             })
         }
+        function deleteBoard() {
+            // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
+            var id = $("#id").text();
+            console.log(id)
+            $.ajax({
+                type: "DELETE",
+                url: "/api/boards/"+id,
+                success: function (response) {
+                    alert('메시지 삭제에 성공하였습니다.');
+                    window.location.href="/"
+                }
+            })
+        }
     </script>
 </head>
 
@@ -207,9 +220,13 @@
     <div class="card" style="">
         <div class="card-body">
 
-
+            <button id="${id}-delete" class="icon-delete" alt="" onclick="deleteBoard('${id}')">게시글삭제</button>
             <h5 class="card-title"><span th:text="${board?.title}"></span></h5>
-            <h6 class="card-subtitle mb-2 text-muted"><span th:text="${board?.username}"></span><span th:text="${board?.modifiedAt}"></span></h6>
+            <div>
+                <h5>글</h5>
+            <h5 id="id" class="card-title"><span th:text="${board?.id}"></span></h5>
+            </div>
+                <h6 class="card-subtitle mb-2 text-muted"><span th:text="${board?.username}"></span><span th:text="${board?.modifiedAt}"></span></h6>
             <p class="card-text"><span th:text="${board?.contents}"></span></p>
 
         </div>

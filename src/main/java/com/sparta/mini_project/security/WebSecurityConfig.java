@@ -1,14 +1,16 @@
 package com.sparta.mini_project.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Configuration
+@Configuration//빈등록관리
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
+@EnableGlobalMethodSecurity(prePostEnabled = true)//특정주소 접근하면 권한 및 인증 미리체크
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
@@ -31,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
 //첫페이지 로그인 없이 허용/ 전체게시글허용/ 상세게시글허용/ 상세게시글 댓글허용
-                .antMatchers("/","/api/boards","/api/comment/{id}","/api/comments").permitAll()
+                .antMatchers("/","/auth/boards","/auth/comment/{id}","/auth/comments").permitAll()
 // image 폴더를 login 없이 허용
                 .antMatchers("/images/**").permitAll()
 // css 폴더를 login 없이 허용

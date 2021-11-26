@@ -36,7 +36,7 @@
         // 2. 메모 목록을 불러와서 HTML로 붙입니다.
         $.ajax({
             type: 'GET',
-            url: '/api/boards',
+            url: '/auth/boards',
             success: function (response) {
                 console.log(response);
                 for (let i = 0; response.length; i++) {
@@ -71,7 +71,7 @@
                             <td id="${id}-title">${title}</td>
                             <td id="${id}-contents">${contents}</td>
                             <td id="${id}-modifiedAt">
-                                    <p><a href='/api/comment/${id}' >${modifiedAt}</a></p>
+                                    <p><a href='/auth/comment/${id}' >${modifiedAt}</a></p>
                             </td>
                             <td>
                             <img id="${id}-delete" class="icon-delete" src="../static/images/delete.png" alt="" onclick="deleteOne('${id}')">
@@ -99,6 +99,7 @@
     }
 
 </script>
+
 
 <body>
 <div id="header-title-login-user">

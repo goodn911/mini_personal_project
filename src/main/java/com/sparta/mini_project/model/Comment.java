@@ -21,6 +21,8 @@ public class Comment extends Timestamped {
     private String comments;
     @Column
     private Long userId;
+    @Column
+    private Long post;
 
 
     public Comment(CommentRequestDto requestDto,Long userId) {
