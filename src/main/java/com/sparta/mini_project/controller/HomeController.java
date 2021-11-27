@@ -38,15 +38,23 @@ public class HomeController {
 
     @GetMapping("/auth/comment/{id}")
     public String comment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        Board board = boardRepository.getById(id);
 
         if (userDetails != null) {
 
-            Board board = boardRepository.getById(id);
+
 
             model.addAttribute("username", userDetails.getUsername());
             model.addAttribute("userId", userDetails.getUser().getId());
-            model.addAttribute("board", board);
+
+        }else {
+            model.addAttribute("username", "guest");
         }
+
+        model.addAttribute("board", board);
+
+
+
         return "comment";
     }
 

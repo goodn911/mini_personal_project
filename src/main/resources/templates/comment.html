@@ -53,6 +53,12 @@
             $(`#${id}-contents`).show();
             $(`#${id}-edit`).show();
         }
+
+        function hideEdits(id) {
+            $(`#${id}-edit`).hide();
+            $(`#${id}-delete`).hide();
+
+        }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 여기서부터 코드를 작성해주시면 됩니다.
 
@@ -66,6 +72,11 @@
             // 1. 기존 메모 내용을 지웁니다.
             //$('#cards-box').empty();
             // 2. 메모 목록을 불러와서 HTML로 붙입니다.
+
+            let boardId= $('#id').text();
+            var userId = "[[${userId}]]"
+
+
             $.ajax({
                 type: 'GET',
                 url: '/auth/comments',
@@ -74,21 +85,63 @@
                     for(let i= 0; response.length;i++){
                         let memo = response[i];
                         let id = memo.id;
+                        let postUserId= memo.userId
                         let postId =memo.postId
-                        let boardId= "[[${board.id}]]"
                         let username = memo.username;
                         let modifiedAt = memo.modifiedAt;
                         let comment = memo.comments;
-                            console.log(id)
-                            console.log(boardId)
+                            console.log(userId)
+                            console.log(postUserId)
                             if(postId == boardId) {
 
-                                addHTML(id, username, modifiedAt, comment)
+                                if(userId!=postUserId) {
+
+                                    hideHTML(id, username, modifiedAt, comment)
+
+                                }
+                                else{
+                                    addHTML(id, username, modifiedAt, comment)
+
+
+                                }
                             }
 
                     }
                 }
             })
+        }
+        function hideHTML(id, username, modifiedAt,comments) {
+            // 1. HTML 태그를 만듭니다.
+            let tempHtml = `<div class="card">
+        <!-- date/username 영역 -->
+        <div class="metadata">
+            <div class="date">
+                ${modifiedAt}
+
+
+            </div>
+            <div id="${id}-username" class="username">
+                ${username}
+
+            </div>
+        </div>
+        <!-- contents 조회/수정 영역-->
+        <div class="contents">
+            <div id="${id}-contents" class="text">
+                ${comments}
+            </div>
+            <div id="${id}-editarea" class="edit">
+                <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
+            </div>
+        </div>
+        <!-- 버튼 영역-->
+
+        <div id = "${id}-footer" class="footer">
+
+        </div>
+    </div>`;
+            // 2. #cards-box 에 HTML을 붙인다.
+            $('#cards-box').append(tempHtml);
         }
 
         // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
@@ -243,7 +296,6 @@
 <!--                게시글 아이디와 접속유저아이디 동일시 삭제 버튼 노출-->
                 <img th:if="${board.userId} == ${userId}" class="icon-delete" src="/images/delete.png" alt="삭제" th:onclick="|deleteBoard('${id}')|">
             </div>
-
 
         </div>
     </div>
