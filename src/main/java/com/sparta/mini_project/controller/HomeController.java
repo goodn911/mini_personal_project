@@ -44,6 +44,7 @@ public class HomeController {
             Board board = boardRepository.getById(id);
 
             model.addAttribute("username", userDetails.getUsername());
+            model.addAttribute("userId", userDetails.getUser().getId());
             model.addAttribute("board", board);
         }
         return "comment";

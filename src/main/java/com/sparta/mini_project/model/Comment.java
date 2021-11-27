@@ -15,20 +15,24 @@ public class Comment extends Timestamped {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
-    @Column
+    @Column(nullable = false)
     private String username;
-    @Column
+    @Column(nullable = false)
     private String comments;
-    @Column
+    @Column(nullable = false)
+    private Long postId; // 게시글 번호
+    @Column(nullable = false)
     private Long userId;
-    @Column
-    private Long post;
+
 
 
     public Comment(CommentRequestDto requestDto,Long userId) {
         this.username = requestDto.getUsername();
         this.comments = requestDto.getComments();
+        this.postId=requestDto.getPostId();
         this.userId=userId;
+
+
     }
 
     public void update(CommentRequestDto requestDto) {

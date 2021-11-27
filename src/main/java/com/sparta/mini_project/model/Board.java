@@ -26,8 +26,7 @@ public class Board extends Timestamped{
     private String title;
     @Column(nullable = false)
     private Long userId;
-//    @OneToMany(mappedBy ="board",fetch = FetchType.EAGER)//
-//    private List<Comment> comment;
+
 
 
     public  Board(BoardRequestDto requestDto, Long userId){

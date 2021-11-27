@@ -28,6 +28,7 @@
 
 
 
+
         // 수정 버튼을 눌렀을 때, 기존 작성 내용을 textarea 에 전달합니다.
         // 숨길 버튼을 숨기고, 나타낼 버튼을 나타냅니다.
         function editPost(id) {
@@ -40,7 +41,6 @@
             $(`#${id}-editarea`).show();
             $(`#${id}-submit`).show();
             $(`#${id}-delete`).show();
-
             $(`#${id}-contents`).hide();
             $(`#${id}-edit`).hide();
         }
@@ -74,10 +74,18 @@
                     for(let i= 0; response.length;i++){
                         let memo = response[i];
                         let id = memo.id;
+                        let postId =memo.postId
+                        let boardId= "[[${board.id}]]"
                         let username = memo.username;
                         let modifiedAt = memo.modifiedAt;
                         let comment = memo.comments;
-                        addHTML(id, username, modifiedAt,comment)
+                            console.log(id)
+                            console.log(boardId)
+                            if(postId == boardId) {
+
+                                addHTML(id, username, modifiedAt, comment)
+                            }
+
                     }
                 }
             })
@@ -110,7 +118,8 @@
             </div>
         </div>
         <!-- 버튼 영역-->
-        <div class="footer">
+
+        <div id = "${id}-footer" class="footer">
             <img id="${id}-edit" class="icon-start-edit" src="/images/edit.png" alt="" onclick="editPost('${id}')">
             <img id="${id}-delete" class="icon-delete" src="/images/delete.png" alt="" onclick="deleteOne('${id}')">
             <img id="${id}-submit" class="icon-end-edit" src="/images/done.png" alt="" onclick="submitEdit('${id}')">
@@ -129,10 +138,11 @@
                 return;
             }
 
-
+            var id = $("#id").text();
+            console.log(id)
             // 4. 전달할 data JSON으로 만듭니다.
             let username = "[[ ${username} ]]";
-            let data = {'username':username,'comments':contents};
+            let data = {'username':username,'comments':contents,'postId':id};
             // 5. POST /api/memos 에 data를 전달합니다.
             $.ajax({
                 type: "POST",
@@ -173,7 +183,7 @@
         // 메모를 삭제합니다.
         function deleteOne(id) {
             // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
-
+            if(confirm("정말 삭제하시겠습니까?")){
             $.ajax({
                 type: "DELETE",
                 url: `/api/comments/${id}`,
@@ -182,6 +192,7 @@
                     window.location.reload();
                 }
             })
+            }
         }
         function deleteBoard() {
             // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
@@ -220,7 +231,7 @@
     <div class="card" style="">
         <div class="card-body">
 
-            <button id="${id}-delete" class="icon-delete" alt="" onclick="deleteBoard('${id}')">게시글삭제</button>
+<!--            <button id="${id}-delete" th:if="${board.userId} == ${userId}" class="icon-delete" alt="" onclick="|deleteBoard('${id}')|">게시글삭제</button>-->
             <h5 class="card-title"><span th:text="${board?.title}"></span></h5>
             <div>
                 <h5>글</h5>
@@ -228,6 +239,10 @@
             </div>
                 <h6 class="card-subtitle mb-2 text-muted"><span th:text="${board?.username}"></span><span th:text="${board?.modifiedAt}"></span></h6>
             <p class="card-text"><span th:text="${board?.contents}"></span></p>
+            <div>
+<!--                게시글 아이디와 접속유저아이디 동일시 삭제 버튼 노출-->
+                <img th:if="${board.userId} == ${userId}" class="icon-delete" src="/images/delete.png" alt="삭제" th:onclick="|deleteBoard('${id}')|">
+            </div>
 
         </div>
     </div>

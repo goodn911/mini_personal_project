@@ -22,6 +22,7 @@ public class CommentController {
     public Comment createComment(@RequestBody CommentRequestDto commentRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
         Long userId = userDetails.getUser().getId();
 
+
         Comment comment =commentService.createComment(commentRequestDto,userId);
         return comment;
 
