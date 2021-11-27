@@ -19,13 +19,16 @@ public class CommentController {
     private final CommentService commentService;
     //상세페이지 댓글 저장 api
     @PostMapping("/api/comments")
-    public Comment createComment(@RequestBody CommentRequestDto commentRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String createComment(@RequestBody CommentRequestDto commentRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
+        if(userDetails == null){
+            return "회원이 아닙니다.";
+        }
 
 
         Long userId = userDetails.getUser().getId();
         Comment comment =commentService.createComment(commentRequestDto,userId);
 
-        return comment;
+        return "저장완료" ;
 
     }
     //상세페이지 댓글 불러오는 api

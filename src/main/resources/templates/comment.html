@@ -58,8 +58,7 @@
             $(`#${id}-delete`).hide();
 
         }
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 여기서부터 코드를 작성해주시면 됩니다.
+
 
         $(document).ready(function () {
             // HTML 문서를 로드할 때마다 실행합니다.
@@ -82,10 +81,16 @@
                 success: function (response) {
                     console.log(response);
                     for(let i= 0; response.length;i++){
+
+
                         let memo = response[i];
+                        //
                         let id = memo.id;
+
                         let postUserId= memo.userId
+
                         let postId =memo.postId
+
                         let username = memo.username;
                         let modifiedAt = memo.modifiedAt;
                         let comment = memo.comments;
@@ -136,16 +141,13 @@
             </div>
         </div>
         <!-- 버튼 영역-->
-
         <div id = "${id}-footer" class="footer">
-
         </div>
     </div>`;
             // 2. #cards-box 에 HTML을 붙인다.
             $('#cards-box').append(tempHtml);
         }
 
-        // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
         // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
         function addHTML(id, username, modifiedAt,comments) {
             // 1. HTML 태그를 만듭니다.
@@ -186,7 +188,12 @@
         // 메모를 생성합니다.
         function writePost() {
             //1.작성한 메모를 불러옵니다.
-
+            // let usercheck = $('#username').text();
+            // console.log(usercheck)
+            // if(usercheck=='guest'){
+            //     alert("로그인이 필요합니다.")
+            //     window.location.href='/user/login'
+            // }
             let contents = $('#comments').val();
             // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
 
@@ -207,11 +214,11 @@
                 contentType: "application/json", // JSON 형식으로 전달함을 알리기
                 data: JSON.stringify(data),
                 success: function (response) {
-                    alert('메시지가 성공적으로 작성되었습니다.');
                     if (response === "회원이 아닙니다.") {
                         alert("로그인이 필요한 서비스입니다!");
                         window.location.href = '/user/login';
                     }else{
+                        alert('메시지가 성공적으로 작성되었습니다.');
                         window.location.reload();
                     }
                 }
@@ -242,9 +249,9 @@
             });
         }
 
-        // 메모를 삭제합니다.
+        // 댓글 삭제
         function deleteOne(id) {
-            // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
+
             if(confirm("정말 삭제하시겠습니까?")){
             $.ajax({
                 type: "DELETE",
@@ -256,6 +263,7 @@
             })
             }
         }
+        //상세게시글 삭제
         function deleteBoard() {
             // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
             var id = $("#id").text();
@@ -286,7 +294,7 @@
 </div>
 <div class="wrap">
     <div class="header">
-        <h2>    <span th:text="${username}"></span> 님의
+        <h2>    <span th:text="${username}"></spanid> 님의
         </h2>
         <p>
             공유하고 싶은 소식을 입력해주세요.

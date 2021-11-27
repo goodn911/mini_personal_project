@@ -57,7 +57,7 @@ public class UserService {
         }
         return "";
     }
-
+    //패스워드 더블확인
     public String notPassword(SignupRequestDto requestDto) {
         if (!requestDto.getPassword().equals(requestDto.getRepassword())) {
             String notPassword = "패스워드가 일치하지 않습니다.";
@@ -69,7 +69,7 @@ public class UserService {
 
 
 
-
+    //유효성검사
     public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new HashMap<>();
 
