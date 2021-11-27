@@ -24,10 +24,18 @@
         getMessages();
 
     })
+    function loginneed(){
+        let username = $('#username').text();
 
-    // 미리 작성된 영역 - 수정하지 않으셔도 됩니다.
-    // 사용자가 내용을 올바르게 입력하였는지 확인합니다.
+        if(username== "guest"){
+            alert("로그인이 필요합니다.")
+            window.location.href="/user/login"
 
+        }else {
+            window.location.href='/api/boards/write'
+        }
+
+    }
 
     // 메모를 불러와서 보여줍니다.
     function getMessages() {
@@ -103,10 +111,10 @@
 
 <body>
 <div id="header-title-login-user">
-    <span th:text="${username}"></span> 님의
+    <span id="username" th:text="${username}"></span> 님의
 </div>
     <div class="nav-see active">
-        <button id="login-id-btn" onclick="location.href='/api/boards/write'">
+        <button id="login-id-btn" onclick="loginneed()">
             게시글 작성
         </button>
     </div>
@@ -117,9 +125,16 @@
 <table id="table-box" class="table table-hover table-bordered results">
 </table>
 <div>
-<form id="my_form" method="post" action="/user/logout">
-    <a id="logout-text" href="javascript:{}" onclick="document.getElementById('my_form').submit();">로그아웃</a>
-</form>
+
+    <div class="nav">
+        <button th:if="${username} == 'guest'" class="UserBtn" onclick="window.location.href='/user/login'">로그인</button>
+        <button th:if="${username} == 'guest'" class="UserBtn" onclick="window.location.href='/user/signup'">회원가입
+        </button>
+        <button th:if="${username} != 'guest'" class="UserBtn" onclick="window.location.href='/user/logout'">로그아웃
+        </button>
+
+    </div>
+
 </div>
 </body>
 </html>

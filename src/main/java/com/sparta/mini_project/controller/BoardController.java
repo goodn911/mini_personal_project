@@ -36,7 +36,7 @@ public class BoardController {
         return boardRepository.findAllByOrderByModifiedAtDesc();
     }
 
-
+    //게시글 삭제
     @DeleteMapping("/api/boards/{id}")
     public Long deleteboard(@PathVariable Long id) {
         boardRepository.deleteById(id);

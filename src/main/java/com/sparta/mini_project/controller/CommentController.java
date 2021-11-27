@@ -20,10 +20,11 @@ public class CommentController {
     //상세페이지 댓글 저장 api
     @PostMapping("/api/comments")
     public Comment createComment(@RequestBody CommentRequestDto commentRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
+
+
         Long userId = userDetails.getUser().getId();
-
-
         Comment comment =commentService.createComment(commentRequestDto,userId);
+
         return comment;
 
     }
@@ -35,13 +36,13 @@ public class CommentController {
     }
 
 
-
+    //상세페이지 댓글삭제
     @DeleteMapping("/api/comments/{id}")
     public Long deleteComment(@PathVariable Long id) {
         commentRepository.deleteById(id);
         return id;
     }
-
+    //상세페이지 댓글 수정
     @PutMapping("/api/comments/{id}")
     public Long updateComment(@PathVariable Long id,@RequestBody CommentRequestDto requestDto){
         commentService.update(id,requestDto);

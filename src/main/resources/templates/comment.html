@@ -28,7 +28,6 @@
 
 
 
-
         // 수정 버튼을 눌렀을 때, 기존 작성 내용을 textarea 에 전달합니다.
         // 숨길 버튼을 숨기고, 나타낼 버튼을 나타냅니다.
         function editPost(id) {
@@ -90,10 +89,12 @@
                         let username = memo.username;
                         let modifiedAt = memo.modifiedAt;
                         let comment = memo.comments;
-                            console.log(userId)
-                            console.log(postUserId)
-                            if(postId == boardId) {
 
+
+                        // 각 게시물에 맞는 댓글
+                        if(postId == boardId) {
+
+                                //해당유저 댓글 삭제/수정 가능
                                 if(userId!=postUserId) {
 
                                     hideHTML(id, username, modifiedAt, comment)
@@ -185,11 +186,14 @@
         // 메모를 생성합니다.
         function writePost() {
             //1.작성한 메모를 불러옵니다.
+
             let contents = $('#comments').val();
             // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+
             if (isValidContents(contents) == false) {
                 return;
             }
+
 
             var id = $("#id").text();
             console.log(id)
@@ -204,7 +208,12 @@
                 data: JSON.stringify(data),
                 success: function (response) {
                     alert('메시지가 성공적으로 작성되었습니다.');
-                    window.location.reload();
+                    if (response === "회원이 아닙니다.") {
+                        alert("로그인이 필요한 서비스입니다!");
+                        window.location.href = '/user/login';
+                    }else{
+                        window.location.reload();
+                    }
                 }
             });
         }
@@ -251,14 +260,17 @@
             // 1. DELETE /api/memos/{id} 에 요청해서 메모를 삭제합니다.
             var id = $("#id").text();
             console.log(id)
-            $.ajax({
-                type: "DELETE",
-                url: "/api/boards/"+id,
-                success: function (response) {
-                    alert('메시지 삭제에 성공하였습니다.');
-                    window.location.href="/"
-                }
-            })
+            if(confirm("정말 삭제하시겠습니까?")) {
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/boards/" + id,
+                    success: function (response) {
+                        alert('메시지 삭제에 성공하였습니다.');
+                        window.location.href = "/"
+                    }
+                })
+            }
         }
     </script>
 </head>
@@ -285,13 +297,13 @@
         <div class="card-body">
 
 <!--            <button id="${id}-delete" th:if="${board.userId} == ${userId}" class="icon-delete" alt="" onclick="|deleteBoard('${id}')|">게시글삭제</button>-->
-            <h5 class="card-title"><span th:text="${board?.title}"></span></h5>
+            <h5 class="card-title">글제목 : <span th:text="${board?.title}"></span></h5>
             <div>
-                <h5>글</h5>
-            <h5 id="id" class="card-title"><span th:text="${board?.id}"></span></h5>
+            <h5 class="card-title">글번호 : <span id="id" th:text="${board?.id}"></span></h5>
             </div>
-                <h6 class="card-subtitle mb-2 text-muted"><span th:text="${board?.username}"></span><span th:text="${board?.modifiedAt}"></span></h6>
-            <p class="card-text"><span th:text="${board?.contents}"></span></p>
+                <h5 class="card-subtitle mb-2 text-muted">작성자 : <span th:text="${board?.username}"></span></h5>
+            <h5><span th:text="${board?.modifiedAt}"></span></h5>
+            <p class="card-text">내용 : <span th:text="${board?.contents}"></span></p>
             <div>
 <!--                게시글 아이디와 접속유저아이디 동일시 삭제 버튼 노출-->
                 <img th:if="${board.userId} == ${userId}" class="icon-delete" src="/images/delete.png" alt="삭제" th:onclick="|deleteBoard('${id}')|">

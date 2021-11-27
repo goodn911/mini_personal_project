@@ -20,23 +20,27 @@ public class HomeController {
 
     public final BoardRepository boardRepository;
 
+    //첫 메인화면
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         if (userDetails != null) {
             model.addAttribute("username", userDetails.getUsername());
+        }else {
+            model.addAttribute("username", "guest");
         }
+
         return "index";
 
     }
-
+    //게시판 글쓰기 이동
     @GetMapping("/api/boards/write")
     public String write() {
         return "redirect:/write.html";
     }
 
-
-    @GetMapping("/auth/comment/{id}")
+    //상세페이지 이동동
+   @GetMapping("/auth/comment/{id}")
     public String comment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         Board board = boardRepository.getById(id);
 
